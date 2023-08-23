@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Post } from "../type/Post";
 import { deleteOnePost } from "../utils/fetchPost";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

@@ -10,7 +10,6 @@ router.post("/login", login);
 router.post("/signup", signup);
 
 router.get("/", async (req, res) => {
-  const { email, password, username } = req.body;
   try {
     console.log("users");
     const users = await prisma.user.findMany();

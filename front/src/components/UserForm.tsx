@@ -1,7 +1,10 @@
 import { useState, FormEvent } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { createOneUser } from "../utils/fetchUsers";
 import Input from "./Input";
+import UserContainer from "./UserContainer";
 
-type UserFormData = {
+export type UserFormData = {
   username: string;
   email: string;
   password: string;
@@ -12,6 +15,10 @@ function UserForm() {
     username: "",
     email: "",
     password: "",
+  });
+  const { mutate } = useMutation({
+    mutationKey: ["user"],
+    mutationFn: (data: UserFormData) => createOneUser(data),
   });
 
   const handleUsername = (username: string) =>
@@ -24,6 +31,7 @@ function UserForm() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    mutate(userForm);
   };
 
   return (
@@ -58,7 +66,12 @@ function UserForm() {
           </button>
         </form>
       </div>
-      <div className="w-1/2  ">liste des utilisateurs</div>
+      <div className="w-1/2  ">
+        <h2 className="text-center capitalize font-bold bg-teal-50 bg-clip-text text-transparent text-xl  ">
+          liste des utilisateurs
+        </h2>
+        <UserContainer />
+      </div>
     </div>
   );
 }

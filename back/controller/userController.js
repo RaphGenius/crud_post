@@ -6,14 +6,17 @@ const login = async (req, res) => {
 };
 
 const signup = async (req, res) => {
+  console;
   try {
-    const isEmailExist = await prisma.user.findUnique({
-      select: {
-        id: "1",
+    const { email, password, username } = await req.body;
+    const newUser = await prisma.user.create({
+      data: {
+        email,
+        password,
+        username,
       },
     });
-    res.status(200).json(isEmailExist);
-    console.log(isEmailExist);
+    res.status(200).json(newUser);
   } catch (error) {
     res.status(500).send({ message: "erreur lors de la creation" });
   }
