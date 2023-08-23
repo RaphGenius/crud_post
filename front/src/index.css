@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  min-height: 100vh;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    194deg,
+    rgba(0, 0, 0, 1) 50%,
+    rgba(45, 57, 57, 0.7114520958083832) 100%
+  );
+  color: white;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
