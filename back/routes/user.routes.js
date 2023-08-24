@@ -2,12 +2,13 @@ import express from "express";
 import prisma from "../prisma/client.js";
 const router = express.Router();
 import { login, signup } from "../controller/userController.js";
+import { emailCheck } from "../middleware/checkUser.js";
 
 const fakeUser = {};
 
 router.post("/login", login);
 
-router.post("/signup", signup);
+router.post("/signup", emailCheck, signup);
 
 router.get("/", async (req, res) => {
   try {

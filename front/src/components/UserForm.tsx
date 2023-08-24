@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { createOneUser } from "../utils/fetchUsers";
 import Input from "./Input";
@@ -16,10 +16,18 @@ function UserForm() {
     email: "",
     password: "",
   });
-  const { mutate } = useMutation({
+  const [isError, setIsError] = useState("");
+  const { mutate, data, isLoading } = useMutation({
     mutationKey: ["user"],
     mutationFn: (data: UserFormData) => createOneUser(data),
   });
+
+  useEffect(() => {
+    setIsError(data?.message);
+    setTimeout(() => {
+      setIsError("");
+    }, 2000);
+  }, [data]);
 
   const handleUsername = (username: string) =>
     setUserForm({ ...userForm, username });
@@ -33,6 +41,7 @@ function UserForm() {
     e.preventDefault();
     mutate(userForm);
   };
+  console.log(data?.message);
 
   return (
     <div className="flex gap-4 px-8 mb-44 ">
@@ -59,7 +68,10 @@ function UserForm() {
             value={userForm.password}
           />
           <button
-            className="p-2 bg-teal-800 rounded-lg hover:bg-teal-600 "
+            disabled={isLoading}
+            className={`p-2 bg-teal-800 rounded-lg hover:bg-teal-600  ${
+              isLoading && "grayscale animate-pulse "
+            } `}
             type="submit"
           >
             S'inscrire
@@ -67,7 +79,10 @@ function UserForm() {
         </form>
       </div>
       <div className="w-1/2  ">
-        <h2 className="text-center capitalize font-bold bg-teal-50 bg-clip-text text-transparent text-xl  ">
+        {isError && isError}
+        <h2
+          className={`text-center capitalize font-bold bg-teal-50 bg-clip-text text-transparent text-xl`}
+        >
           liste des utilisateurs
         </h2>
         <UserContainer />

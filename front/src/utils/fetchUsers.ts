@@ -17,14 +17,16 @@ export const getAllUsers = async (): Promise<UserType[]> => {
 };
 
 export const createOneUser = async (user: UserFormData) => {
-  console.log(user);
   const newUser = await fetch(`${BASE_URL}/user/signup`, {
     method: "POST",
     headers,
     body: JSON.stringify(user),
   })
     .then((res) => res.json())
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err.message));
 
+  const { access_token } = newUser;
+
+  localStorage.setItem("token", JSON.stringify(access_token));
   return await newUser;
 };
